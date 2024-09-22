@@ -19,7 +19,7 @@ export default function Component({ onFilter }: FiltersProps) {
 
   useEffect(() => {
     onFilter({ gender, color, priceRange, type });
-  }, [gender, color, priceRange, type, onFilter]);
+  }, [gender, color, priceRange, type]);
 
   const resetFilters = () => {
     setGender("");

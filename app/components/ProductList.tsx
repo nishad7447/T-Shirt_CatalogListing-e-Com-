@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Check,
@@ -25,13 +25,14 @@ export default function Component({ products, addToCart, onProductSelect }: Prod
   const [clickedProduct, setClickedProduct] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(ITEMS_PER_PAGE_OPTIONS[1]);
+  const [currentProducts, setCurrentProducts] = useState<Product[]>([]);
 
   const totalPages = Math.ceil(products.length / itemsPerPage);
 
-  const currentProducts = useMemo(() => {
+  useEffect(() => {
     const start = (currentPage - 1) * itemsPerPage;
     const end = start + itemsPerPage;
-    return products.slice(start, end);
+    setCurrentProducts(products.slice(start, end));
   }, [products, currentPage, itemsPerPage]);
 
   const handleAddToCart = (product: Product) => {
@@ -166,8 +167,8 @@ export default function Component({ products, addToCart, onProductSelect }: Prod
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className="bg-gray-800 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+                className="bg-gray-800 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-2xl"
               >
                 <div className="relative aspect-square">
                   <img

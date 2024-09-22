@@ -28,6 +28,11 @@
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSubmit(e)
+              }
+            }}
             placeholder="Search for t-shirts..."
             className="pl-10 pr-4 py-2 w-full rounded-3xl text-white font-bold placeholder:text-gray-500 placeholder:text-xs sm:placeholder:text-sm bg-gray-800 bg-opacity-80 focus:bg-gray-700 transition-all duration-300 ease-in-out border border-gray-600 focus:outline-none"
           />
