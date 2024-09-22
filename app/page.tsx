@@ -438,7 +438,7 @@ export default function Home() {
   };
 
   return (
-    <div className="container mx-auto px-4 bg-black">
+    <div className="container mx-auto px-4 bg-black fixed-bg">
       <header className="flex justify-between items-center py-4">
         <h1 className="md:text-2xl font-bold md:ml-8">T-Shirt Catalog</h1>
         <div className="flex md:w-1/2">
