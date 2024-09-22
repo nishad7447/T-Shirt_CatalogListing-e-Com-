@@ -438,9 +438,9 @@ export default function Home() {
   };
 
   return (
-    <div className="mx-auto px-4" style={{ backgroundColor: "black" }}>
+    <div className="mx-auto px-4">
       <header className="flex justify-between items-center py-4">
-        <h1 className="md:text-2xl font-bold md:ml-8">T-Shirt Catalog</h1>
+        <h1 className="md:text-2xl font-bold md:ml-8 text-white">T-Shirt Catalog</h1>
         <div className="flex md:w-1/2">
           <SearchBar onSearch={handleSearch} />
           <motion.button

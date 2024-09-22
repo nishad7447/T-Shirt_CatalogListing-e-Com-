@@ -21,11 +21,7 @@ type ProductListProps = {
 
 const ITEMS_PER_PAGE_OPTIONS = [4, 8, 12, 16, 32];
 
-export default function ProductList({
-  products,
-  addToCart,
-  onProductSelect,
-}: ProductListProps) {
+export default function Component({ products, addToCart, onProductSelect }: ProductListProps) {
   const [clickedProduct, setClickedProduct] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(ITEMS_PER_PAGE_OPTIONS[1]);
@@ -90,7 +86,7 @@ export default function ProductList({
   };
 
   const PaginationControls = () => (
-    <div className="flex justify-between items-center w-full max-w-4xl mx-auto py-4">
+    <div className="flex flex-col sm:flex-row justify-between items-center w-full max-w-4xl mx-auto py-4 px-4 space-y-4 sm:space-y-0">
       <div className="flex items-center space-x-2">
         <motion.button
           whileHover={{ scale: 1.1 }}
@@ -112,20 +108,16 @@ export default function ProductList({
         </motion.button>
       </div>
       <div className="flex items-center space-x-4">
-        <span className="text-white text-[9px] sm:text-sm md:text-base">
+        <span className="text-white text-xs sm:text-sm">
           Page {currentPage} of {totalPages}
         </span>
         <select
           value={itemsPerPage}
           onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
-          className="bg-gray-700 text-white rounded-md p-1 transition-colors duration-300 hover:bg-gray-600 text-xs sm:text-sm md:text-base"
+          className="bg-gray-700 text-white rounded-md p-1 transition-colors duration-300 hover:bg-gray-600 text-xs sm:text-sm"
         >
           {ITEMS_PER_PAGE_OPTIONS.map((option) => (
-            <option
-              key={option}
-              value={option}
-              className="text-[9px] sm:text-sm md:text-base"
-            >
+            <option key={option} value={option} className="text-xs sm:text-sm">
               Show {option}
             </option>
           ))}
@@ -155,7 +147,7 @@ export default function ProductList({
   );
 
   return (
-    <div className="min-h-screen pb-8">
+    <div className="min-h-screen pb-8 px-4 sm:px-6 lg:px-8">
       <Toaster position="top-center" reverseOrder={false} />
       {currentProducts.length > 0 ? (
         <>
@@ -166,7 +158,7 @@ export default function ProductList({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto px-4"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto"
           >
             {currentProducts.map((product) => (
               <motion.div
@@ -179,9 +171,7 @@ export default function ProductList({
               >
                 <div className="relative aspect-square">
                   <img
-                    src={`/assets/images/${product.name.replace(/ /g, "_")}_${
-                      product.gender
-                    }.png`}
+                    src={`/assets/images/${product.name.replace(/ /g, "_")}_${product.gender}.png`}
                     alt={product.name}
                     className="w-full h-full object-cover cursor-pointer"
                     onClick={() => {
@@ -221,7 +211,7 @@ export default function ProductList({
                             transition={{ delay: 0.2 }}
                             className="relative z-10 text-white"
                           >
-                            <Check className="w-8 h-8" />
+                            <Check className="w-6 h-6 sm:w-8 sm:h-8" />
                           </motion.div>
                         </motion.div>
                       ) : (
@@ -233,7 +223,7 @@ export default function ProductList({
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           onClick={() => handleAddToCart(product)}
-                          className="text-white px-4 py-2 rounded-full transition-colors duration-300"
+                          className="text-white px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm rounded-full transition-colors duration-300"
                         >
                           {product.quantity > 0 ? "Quick Add" : "Out of Stock"}
                         </motion.button>
@@ -241,19 +231,19 @@ export default function ProductList({
                     </AnimatePresence>
                   </motion.div>
                 </div>
-                <div className="p-4">
+                <div className="p-3 sm:p-4">
                   <div className="flex justify-between items-center mb-2">
                     <h2
-                      className="font-semibold text-lg text-white cursor-pointer"
+                      className="font-semibold text-sm sm:text-base lg:text-lg text-white cursor-pointer truncate"
                       onClick={() => onProductSelect(product)}
                     >
                       {product.name}
                     </h2>
-                    <p className="font-bold text-white">
+                    <p className="font-bold text-white text-sm sm:text-base">
                       {product.price} {product.currency}
                     </p>
                   </div>
-                  <p className="text-sm text-gray-400 mb-4">
+                  <p className="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4">
                     {product.gender} • {product.color} • {product.type}
                   </p>
                   <AnimatePresence>
@@ -263,9 +253,9 @@ export default function ProductList({
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3 }}
-                        className="w-full bg-green-500 text-white py-2 rounded-full flex items-center justify-center"
+                        className="w-full bg-green-500 text-white py-1 sm:py-2 rounded-full flex items-center justify-center text-xs sm:text-sm"
                       >
-                        <Check className="w-5 h-5 mr-2" />
+                        <Check className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
                         Added to Cart
                       </motion.div>
                     ) : (
@@ -277,11 +267,9 @@ export default function ProductList({
                         onClick={() => handleAddToCart(product)}
                         className={`w-full ${
                           product.quantity > 0 ? "bg-blue-600" : "bg-yellow-600"
-                        } text-white py-2 rounded-full ${
-                          product.quantity > 0
-                            ? "hover:bg-blue-700"
-                            : "hover:bg-yellow-700"
-                        } transition-colors duration-300 flex items-center justify-center relative overflow-hidden`}
+                        } text-white py-1 sm:py-2 rounded-full ${
+                          product.quantity > 0 ? "hover:bg-blue-700" : "hover:bg-yellow-700"
+                        } transition-colors duration-300 flex items-center justify-center relative overflow-hidden text-xs sm:text-sm`}
                       >
                         <motion.div
                           className="absolute inset-0 bg-blue-700"
@@ -290,7 +278,7 @@ export default function ProductList({
                           transition={{ duration: 0.3 }}
                         />
                         <motion.div className="relative z-10 flex items-center justify-center">
-                          <ShoppingCart className="w-5 h-5 mr-2" />
+                          <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
                           {product.quantity > 0 ? "Add to Cart" : "Out of Stock"}
                         </motion.div>
                       </motion.button>
