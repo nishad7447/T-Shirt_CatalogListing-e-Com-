@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import { Toaster, toast } from 'react-hot-toast';
 import { Product } from "../type";
-import Image from "next/image";
 
 type ProductListProps = {
   products: Product[];
@@ -179,7 +178,7 @@ export default function ProductList({
                 className="bg-gray-800 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
               >
                 <div className="relative aspect-square">
-                  <Image
+                  <img
                     src={`/assets/images/${product.name.replace(/ /g, "_")}_${
                       product.gender
                     }.png`}

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, ArrowLeft, Star, Plus, Minus } from "lucide-react";
 import { Product } from "../type";
-import Image from "next/image";
 
 type ProductDetailProps = {
   product: Product;
@@ -48,7 +47,7 @@ export default function ProductDetail({
             transition={{ duration: 0.5 }}
             className="aspect-square rounded-xl overflow-hidden"
           >
-            <Image
+            <img
               src={`/assets/images/${product.name.replace(/ /g, "_")}_${
                 product.gender
               }.png`}

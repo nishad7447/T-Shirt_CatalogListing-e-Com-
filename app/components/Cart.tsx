@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast, Toaster } from "react-hot-toast";
 import { X, Minus, Plus, ShoppingCart } from "lucide-react";
-import Image from "next/image";
 
 type Product = {
   id: number;
@@ -134,7 +133,7 @@ export default function Cart({
                 >
                   <div className="flex items-center space-x-4">
                     <div className="w-16 h-16 bg-gray-200 rounded-md overflow-hidden">
-                      <Image
+                      <img
                         src={`/assets/images/${item.product.name.replace(
                           / /g,
                           "_"
