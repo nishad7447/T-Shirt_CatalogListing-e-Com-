@@ -1,101 +1,498 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useEffect } from "react";
+import { Product } from "./type";
+import Filters from "./components/Filters";
+import Cart from "./components/Cart";
+import ProductList from "./components/ProductList";
+import SearchBar from "./components/SearchBar";
+import { ShoppingCart } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import ProductDetail from "./components/ProductDetailed";
+import toast from "react-hot-toast";
+
+const catalogData: Product[] = [
+  {
+    id: 1,
+    name: "Black Polo",
+    type: "Polo",
+    price: 250,
+    currency: "INR",
+    color: "Black",
+    gender: "Men",
+    quantity: 3,
+  },
+  {
+    id: 2,
+    name: "Blue Polo",
+    type: "Polo",
+    price: 350,
+    currency: "INR",
+    color: "Blue",
+    gender: "Women",
+    quantity: 3,
+  },
+  {
+    id: 3,
+    name: "Pink Polo",
+    type: "Polo",
+    price: 350,
+    currency: "INR",
+    color: "Pink",
+    gender: "Women",
+    quantity: 6,
+  },
+  {
+    id: 4,
+    name: "Black Hoodie",
+    type: "Hoodie",
+    price: 500,
+    currency: "INR",
+    color: "Black",
+    gender: "Men",
+    quantity: 2,
+  },
+  {
+    id: 5,
+    name: "Green Polo",
+    type: "Polo",
+    price: 250,
+    currency: "INR",
+    color: "Green",
+    gender: "Men",
+    quantity: 1,
+  },
+  {
+    id: 6,
+    name: "Green Polo",
+    type: "Polo",
+    price: 350,
+    currency: "INR",
+    color: "Green",
+    gender: "Women",
+    quantity: 1,
+  },
+  {
+    id: 7,
+    name: "Blue Hoodie",
+    type: "Hoodie",
+    price: 500,
+    currency: "INR",
+    color: "Blue",
+    gender: "Women",
+    quantity: 2,
+  },
+  {
+    id: 8,
+    name: "Black Hoodie",
+    type: "Hoodie",
+    price: 500,
+    currency: "INR",
+    color: "Black",
+    gender: "Women",
+    quantity: 5,
+  },
+  {
+    id: 9,
+    name: "Blue Round",
+    type: "Basic",
+    price: 300,
+    currency: "INR",
+    color: "Blue",
+    gender: "Men",
+    quantity: 2,
+  },
+  {
+    id: 10,
+    name: "Red Round",
+    type: "Basic",
+    price: 300,
+    currency: "INR",
+    color: "Red",
+    gender: "Women",
+    quantity: 2,
+  },
+  {
+    id: 11,
+    name: "Grey Round",
+    type: "Basic",
+    price: 300,
+    currency: "INR",
+    color: "Grey",
+    gender: "Men",
+    quantity: 1,
+  },
+  {
+    id: 12,
+    name: "Purple Hoodie",
+    type: "Hoodie",
+    price: 500,
+    currency: "INR",
+    color: "Purple",
+    gender: "Women",
+    quantity: 3,
+  },
+  {
+    id: 13,
+    name: "Grey Round",
+    type: "Basic",
+    price: 300,
+    currency: "INR",
+    color: "Grey",
+    gender: "Women",
+    quantity: 1,
+  },
+  {
+    id: 14,
+    name: "White Round",
+    type: "Basic",
+    price: 300,
+    currency: "INR",
+    color: "White",
+    gender: "Women",
+    quantity: 0,
+  },
+  {
+    id: 15,
+    name: "Black Round",
+    type: "Basic",
+    price: 300,
+    currency: "INR",
+    color: "Black",
+    gender: "Men",
+    quantity: 7,
+  },
+  {
+    id: 16,
+    name: "Purple Round",
+    type: "Basic",
+    price: 300,
+    currency: "INR",
+    color: "Purple",
+    gender: "Men",
+    quantity: 1,
+  },
+  {
+    id: 17,
+    name: "White Round",
+    type: "Basic",
+    price: 300,
+    currency: "INR",
+    color: "White",
+    gender: "Men",
+    quantity: 2,
+  },
+  {
+    id: 18,
+    name: "Blue Round",
+    type: "Basic",
+    price: 300,
+    currency: "INR",
+    color: "Blue",
+    gender: "Women",
+    quantity: 3,
+  },
+  {
+    id: 19,
+    name: "Yellow Hoodie",
+    type: "Hoodie",
+    price: 500,
+    currency: "INR",
+    color: "Yellow",
+    gender: "Women",
+    quantity: 1,
+  },
+  {
+    id: 20,
+    name: "White Polo",
+    type: "Polo",
+    price: 350,
+    currency: "INR",
+    color: "White",
+    gender: "Women",
+    quantity: 4,
+  },
+  {
+    id: 21,
+    name: "Red Polo",
+    type: "Polo",
+    price: 250,
+    currency: "INR",
+    color: "Red",
+    gender: "Men",
+    quantity: 2,
+  },
+  {
+    id: 22,
+    name: "Blue Hoodie",
+    type: "Hoodie",
+    price: 500,
+    currency: "INR",
+    color: "Blue",
+    gender: "Men",
+    quantity: 0,
+  },
+  {
+    id: 23,
+    name: "Grey Hoodie",
+    type: "Hoodie",
+    price: 500,
+    currency: "INR",
+    color: "Grey",
+    gender: "Men",
+    quantity: 2,
+  },
+  {
+    id: 24,
+    name: "Grey Polo",
+    type: "Polo",
+    price: 300,
+    currency: "INR",
+    color: "Grey",
+    gender: "Men",
+    quantity: 3,
+  },
+  {
+    id: 25,
+    name: "Red Hoodie",
+    type: "Hoodie",
+    price: 300,
+    currency: "INR",
+    color: "Red",
+    gender: "Men",
+    quantity: 0,
+  },
+  {
+    id: 26,
+    name: "White Polo",
+    type: "Polo",
+    price: 300,
+    currency: "INR",
+    color: "White",
+    gender: "Men",
+    quantity: 1,
+  },
+  {
+    id: 27,
+    name: "White Hoodie",
+    type: "Hoodie",
+    price: 500,
+    currency: "INR",
+    color: "White",
+    gender: "Women",
+    quantity: 3,
+  },
+  {
+    id: 28,
+    name: "Grey Round",
+    type: "Basic",
+    price: 300,
+    currency: "INR",
+    color: "Grey",
+    gender: "Men",
+    quantity: 0,
+  },
+  {
+    id: 29,
+    name: "Black Round",
+    type: "Basic",
+    price: 300,
+    currency: "INR",
+    color: "Black",
+    gender: "Women",
+    quantity: 0,
+  },
+  {
+    id: 30,
+    name: "Black Polo",
+    type: "Polo",
+    price: 300,
+    currency: "INR",
+    color: "Black",
+    gender: "Women",
+    quantity: 4,
+  },
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [products, setProducts] = useState<Product[]>(catalogData);
+  const [filteredProducts, setFilteredProducts] =
+    useState<Product[]>(catalogData);
+  const [cart, setCart] = useState<{ product: Product; quantity: number }[]>(
+    []
+  );
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const handleSearch = (searchTerm: string) => {
+    const filtered = products.filter(
+      (product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.color.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.type.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  };
+
+  const handleFilter = (filters: {
+    gender?: string;
+    color?: string;
+    priceRange?: [number, number];
+    type?: string;
+  }) => {
+    let filtered = [...products];
+
+    if (filters.gender) {
+      filtered = filtered.filter(
+        (product) => product.gender === filters.gender
+      );
+    }
+
+    if (filters.color) {
+      filtered = filtered.filter((product) => product.color === filters.color);
+    }
+
+    if (
+      filters.priceRange &&
+      Array.isArray(filters.priceRange) &&
+      filters.priceRange.length === 2
+    ) {
+      const [minPrice, maxPrice] = filters.priceRange;
+      filtered = filtered.filter(
+        (product) => product.price >= minPrice && product.price <= maxPrice
+      );
+    }
+
+    if (filters.type) {
+      filtered = filtered.filter((product) => product.type === filters.type);
+    }
+
+    setFilteredProducts(filtered);
+  };
+
+  const addToCart = (product: Product) => {
+    const existingItem = cart.find((item) => item.product.id === product.id);
+    if (existingItem) {
+      if (existingItem.quantity < product.quantity) {
+        setCart(
+          cart.map((item) =>
+            item.product.id === product.id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          )
+        );
+      } else {
+        toast.error('Cannot add more items. Maximum quantity reached.', {
+          icon: '⚠️',
+          style: {
+            borderRadius: '10px',
+            backgroundColor: '#ffcccb', 
+            color: '#000', 
+            border: '1px solid red',
+          },
+        });
+      }
+    } else {
+      setCart([...cart, { product, quantity: 1 }]);
+    }
+  };
+
+  const removeFromCart = (productId: number) => {
+    setCart(cart.filter((item) => item.product.id !== productId));
+  };
+
+  const updateCartItemQuantity = (productId: number, newQuantity: number) => {
+    const product = products.find((p) => p.id === productId);
+    if (product && newQuantity <= product.quantity) {
+      setCart(
+        cart.map((item) =>
+          item.product.id === productId
+            ? { ...item, quantity: newQuantity }
+            : item
+        )
+      );
+    } else {
+      toast.error('Cannot add more items. Maximum quantity reached.', {
+        icon: '⚠️',
+        style: {
+          borderRadius: '10px',
+          backgroundColor: '#ffcccb', 
+          color: '#000', 
+          border: '1px solid red',
+        },
+      });
+    }
+  };
+
+  const totalAmount = cart.reduce(
+    (total, item) => total + item.product.price * item.quantity,
+    0
+  );
+
+  const handleProductSelect = (product: Product) => {
+    setSelectedProduct(product);
+  };
+
+  const handleBackToList = () => {
+    setSelectedProduct(null);
+  };
+
+  return (
+    <div className="container mx-auto px-4">
+      <header className="flex justify-between items-center py-4">
+        <h1 className="md:text-2xl font-bold md:ml-8">T-Shirt Catalog</h1>
+        <div className="flex md:w-1/2">
+          <SearchBar onSearch={handleSearch} />
+          <motion.button
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            whileHover={{ scale: 1.05 }}
+            className="text-white px-3 rounded-full flex items-center shadow-2xl"
+            onClick={() => setIsCartOpen(!isCartOpen)}
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <ShoppingCart className="text-xl" />
+            <sup className="md:mr-2 ml-[-6px] mb-1 text-[7px] bg-red-500 text-white px-[5px] py-[7px] rounded-full transform transition-transform hover:scale-110 shadow-md">
+              {cart.reduce((total, item) => total + item.quantity, 0)}
+            </sup>
+            <span className="md:text-lg font-semibold hidden md:block">
+              Cart
+            </span>
+          </motion.button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </header>
+      <div className="flex flex-col md:flex-row gap-4">
+        {selectedProduct ? (
+          <>
+            <ProductDetail
+              product={selectedProduct}
+              addToCart={addToCart}
+              onBack={handleBackToList}
+            />
+          </>
+        ) : (
+          <>
+            <div className="md:w-1/4">
+              <Filters onFilter={handleFilter} />
+            </div>
+            <div className="md:w-3/4">
+              <ProductList
+                products={filteredProducts}
+                addToCart={addToCart}
+                onProductSelect={handleProductSelect}
+              />
+            </div>
+          </>
+        )}
+      </div>
+      {isCartOpen && (
+        <Cart
+          cart={cart}
+          removeFromCart={removeFromCart}
+          updateCartItemQuantity={updateCartItemQuantity}
+          totalAmount={totalAmount}
+          onClose={() => setIsCartOpen(false)}
+        />
+      )}
     </div>
   );
 }
