@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { toast, Toaster } from 'react-hot-toast';
-import { X, Minus, Plus, ShoppingCart } from 'lucide-react';
+import { toast, Toaster } from "react-hot-toast";
+import { X, Minus, Plus, ShoppingCart } from "lucide-react";
+import Image from "next/image";
 
 type Product = {
   id: number;
@@ -29,10 +30,7 @@ export default function Cart({
   totalAmount,
   onClose,
 }: CartProps) {
-  const [isClosing, setIsClosing] = useState(false);
-
   const handleClose = () => {
-    setIsClosing(true);
     setTimeout(onClose, 300);
   };
 
@@ -49,34 +47,38 @@ export default function Cart({
   const handleRemoveItem = (productId: number, productName: string) => {
     removeFromCart(productId);
     toast.success(`${productName} removed from cart`, {
-      icon: '🗑️',
+      icon: "🗑️",
       style: {
-        borderRadius: '10px',
-        background: '#333',
-        color: '#fff',
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
       },
     });
   };
 
-  const handleUpdateQuantity = (productId: number, newQuantity: number, productName: string) => {
+  const handleUpdateQuantity = (
+    productId: number,
+    newQuantity: number,
+    productName: string
+  ) => {
     updateCartItemQuantity(productId, newQuantity);
     toast.success(`${productName} quantity updated`, {
-      icon: '🔄',
+      icon: "🔄",
       style: {
-        borderRadius: '10px',
-        background: '#333',
-        color: '#fff',
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
       },
     });
   };
 
   const handleCheckout = () => {
-    toast.success('Proceeding to checkout...', {
-      icon: '🛒',
+    toast.success("Proceeding to checkout...", {
+      icon: "🛒",
       style: {
-        borderRadius: '10px',
-        background: '#333',
-        color: '#fff',
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
       },
     });
     handleClose();
@@ -132,7 +134,7 @@ export default function Cart({
                 >
                   <div className="flex items-center space-x-4">
                     <div className="w-16 h-16 bg-gray-200 rounded-md overflow-hidden">
-                      <img
+                      <Image
                         src={`/assets/images/${item.product.name.replace(
                           / /g,
                           "_"
@@ -153,7 +155,13 @@ export default function Cart({
                   <div className="flex items-center space-x-2">
                     <div className="flex items-center border border-gray-300 rounded-md">
                       <button
-                        onClick={() => handleUpdateQuantity(item.product.id, Math.max(1, item.quantity - 1), item.product.name)}
+                        onClick={() =>
+                          handleUpdateQuantity(
+                            item.product.id,
+                            Math.max(1, item.quantity - 1),
+                            item.product.name
+                          )
+                        }
                         className="px-2 py-1 text-gray-600 hover:bg-gray-100 transition-colors duration-200"
                       >
                         <Minus className="h-4 w-4" />
@@ -161,20 +169,34 @@ export default function Cart({
                       <input
                         type="number"
                         value={item.quantity}
-                        onChange={(e) => handleUpdateQuantity(item.product.id, parseInt(e.target.value) || 1, item.product.name)}
+                        onChange={(e) =>
+                          handleUpdateQuantity(
+                            item.product.id,
+                            parseInt(e.target.value) || 1,
+                            item.product.name
+                          )
+                        }
                         min="1"
                         max={item.product.quantity}
                         className="w-12 text-center border-x border-gray-300 py-1"
                       />
                       <button
-                        onClick={() => handleUpdateQuantity(item.product.id, Math.min(item.product.quantity, item.quantity + 1), item.product.name)}
+                        onClick={() =>
+                          handleUpdateQuantity(
+                            item.product.id,
+                            Math.min(item.product.quantity, item.quantity + 1),
+                            item.product.name
+                          )
+                        }
                         className="px-2 py-1 text-gray-600 hover:bg-gray-100 transition-colors duration-200"
                       >
                         <Plus className="h-4 w-4" />
                       </button>
                     </div>
                     <button
-                      onClick={() => handleRemoveItem(item.product.id, item.product.name)}
+                      onClick={() =>
+                        handleRemoveItem(item.product.id, item.product.name)
+                      }
                       className="text-red-500 hover:text-red-700 transition-colors duration-200"
                     >
                       <X className="h-5 w-5" />

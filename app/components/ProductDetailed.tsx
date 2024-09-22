@@ -1,43 +1,33 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { ShoppingCart, ArrowLeft, Star, Plus, Minus } from "lucide-react"
-
-type Product = {
-  id: string
-  name: string
-  gender: string
-  color: string
-  type: string
-  price: number
-  currency: string
-  quantity: number
-  description: string
-  sizes: string[]
-  rating: number
-  reviews: number
-}
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ShoppingCart, ArrowLeft, Star, Plus, Minus } from "lucide-react";
+import { Product } from "../type";
+import Image from "next/image";
 
 type ProductDetailProps = {
-  product: Product
-  addToCart: (product: Product, quantity: number, size: string) => void
-  onBack: () => void
-}
+  product: Product;
+  addToCart: (product: Product, quantity: number, size: string) => void;
+  onBack: () => void;
+};
 
-export default function ProductDetail({ product, addToCart, onBack }: ProductDetailProps) {
-    console.log({product})
-  const [selectedSize, setSelectedSize] = useState<string | null>(null)
-  const [quantity, setQuantity] = useState(1)
-  const [isAdded, setIsAdded] = useState(false)
+export default function ProductDetail({
+  product,
+  addToCart,
+  onBack,
+}: ProductDetailProps) {
+  const [selectedSize] = useState<string | null>(null);
+  const [quantity, setQuantity] = useState(1);
+  const [isAdded, setIsAdded] = useState(false);
 
   const handleAddToCart = () => {
     if (selectedSize) {
-      addToCart(product, quantity, selectedSize)
-      setIsAdded(true)
-      setTimeout(() => setIsAdded(false), 2000)
+      addToCart(product, quantity, selectedSize);
+      setIsAdded(true);
+      setTimeout(() => setIsAdded(false), 2000);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen w-full text-white py-8">
@@ -58,8 +48,10 @@ export default function ProductDetail({ product, addToCart, onBack }: ProductDet
             transition={{ duration: 0.5 }}
             className="aspect-square rounded-xl overflow-hidden"
           >
-            <img
-              src={`/assets/images/${product.name.replace(/ /g, "_")}_${product.gender}.png`}
+            <Image
+              src={`/assets/images/${product.name.replace(/ /g, "_")}_${
+                product.gender
+              }.png`}
               alt={product.name}
               className="w-full h-full object-cover"
             />
@@ -81,36 +73,13 @@ export default function ProductDetail({ product, addToCart, onBack }: ProductDet
                   <Star
                     key={i}
                     className={`w-5 h-5 ${
-                      i < product.rating ? "text-yellow-400" : "text-gray-600"
+                      i < 5 ? "text-yellow-400" : "text-gray-600"
                     }`}
-                    fill={i < product.rating ? "currentColor" : "none"}
+                    fill={i < 5 ? "currentColor" : "none"}
                   />
                 ))}
-                <span className="ml-2 text-gray-400">
-                  ({product.reviews} reviews)
-                </span>
+                <span className="ml-2 text-gray-400">(999 reviews)</span>
               </div>
-              <p className="text-gray-300 mb-6">{product.description}</p>
-              {/* <div className="mb-6">
-                <h2 className="text-lg font-semibold mb-2">Select Size</h2>
-                <div className="flex flex-wrap gap-2">
-                  {product.sizes.map((size) => (
-                    <motion.button
-                      key={size}
-                      onClick={() => setSelectedSize(size)}
-                      className={`px-4 py-2 rounded-full ${
-                        selectedSize === size
-                          ? "bg-blue-600 text-white"
-                          : "bg-gray-800 text-gray-300"
-                      }`}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      {size}
-                    </motion.button>
-                  ))}
-                </div>
-              </div> */}
               <div className="mb-6">
                 <h2 className="text-lg font-semibold mb-2">Quantity</h2>
                 <div className="flex items-center">
@@ -124,7 +93,9 @@ export default function ProductDetail({ product, addToCart, onBack }: ProductDet
                   </motion.button>
                   <span className="mx-4 text-xl">{quantity}</span>
                   <motion.button
-                    onClick={() => setQuantity(Math.min(product.quantity, quantity + 1))}
+                    onClick={() =>
+                      setQuantity(Math.min(product.quantity, quantity + 1))
+                    }
                     className="p-2 bg-gray-800 rounded-full"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
@@ -165,5 +136,5 @@ export default function ProductDetail({ product, addToCart, onBack }: ProductDet
         </div>
       </div>
     </div>
-  )
+  );
 }

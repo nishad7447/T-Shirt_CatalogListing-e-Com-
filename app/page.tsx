@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Product } from "./type";
 import Filters from "./components/Filters";
 import Cart from "./components/Cart";
 import ProductList from "./components/ProductList";
 import SearchBar from "./components/SearchBar";
 import { ShoppingCart } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import ProductDetail from "./components/ProductDetailed";
 import toast from "react-hot-toast";
 
@@ -315,7 +315,7 @@ const catalogData: Product[] = [
 ];
 
 export default function Home() {
-  const [products, setProducts] = useState<Product[]>(catalogData);
+  const [products] = useState<Product[]>(catalogData);
   const [filteredProducts, setFilteredProducts] =
     useState<Product[]>(catalogData);
   const [cart, setCart] = useState<{ product: Product; quantity: number }[]>(
@@ -382,13 +382,13 @@ export default function Home() {
           )
         );
       } else {
-        toast.error('Cannot add more items. Maximum quantity reached.', {
-          icon: '⚠️',
+        toast.error("Cannot add more items. Maximum quantity reached.", {
+          icon: "⚠️",
           style: {
-            borderRadius: '10px',
-            backgroundColor: '#ffcccb', 
-            color: '#000', 
-            border: '1px solid red',
+            borderRadius: "10px",
+            backgroundColor: "#ffcccb",
+            color: "#000",
+            border: "1px solid red",
           },
         });
       }
@@ -412,13 +412,13 @@ export default function Home() {
         )
       );
     } else {
-      toast.error('Cannot add more items. Maximum quantity reached.', {
-        icon: '⚠️',
+      toast.error("Cannot add more items. Maximum quantity reached.", {
+        icon: "⚠️",
         style: {
-          borderRadius: '10px',
-          backgroundColor: '#ffcccb', 
-          color: '#000', 
-          border: '1px solid red',
+          borderRadius: "10px",
+          backgroundColor: "#ffcccb",
+          color: "#000",
+          border: "1px solid red",
         },
       });
     }

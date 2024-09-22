@@ -11,17 +11,8 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import { Toaster, toast } from 'react-hot-toast';
-
-type Product = {
-  id: string;
-  name: string;
-  gender: string;
-  color: string;
-  type: string;
-  price: number;
-  currency: string;
-  quantity: number;
-};
+import { Product } from "../type";
+import Image from "next/image";
 
 type ProductListProps = {
   products: Product[];
@@ -50,7 +41,7 @@ export default function ProductList({
 
   const handleAddToCart = (product: Product) => {
     if (product.quantity > 0) {
-      setClickedProduct(product.id);
+      setClickedProduct(product.id.toString());
       addToCart(product);
       toast.success(`${product.name} added to cart! ✅ `, {
         icon: '🛒',
@@ -188,7 +179,7 @@ export default function ProductList({
                 className="bg-gray-800 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
               >
                 <div className="relative aspect-square">
-                  <img
+                  <Image
                     src={`/assets/images/${product.name.replace(/ /g, "_")}_${
                       product.gender
                     }.png`}
@@ -211,7 +202,7 @@ export default function ProductList({
                     whileHover={{ opacity: 1 }}
                   >
                     <AnimatePresence>
-                      {clickedProduct === product.id ? (
+                      {clickedProduct === product.id.toString() ? (
                         <motion.div
                           key="added"
                           initial={{ scale: 0.8, opacity: 0 }}
@@ -267,7 +258,7 @@ export default function ProductList({
                     {product.gender} • {product.color} • {product.type}
                   </p>
                   <AnimatePresence>
-                    {clickedProduct === product.id ? (
+                    {clickedProduct === product.id.toString() ? (
                       <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
