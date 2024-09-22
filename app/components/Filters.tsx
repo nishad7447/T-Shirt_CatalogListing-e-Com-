@@ -101,7 +101,7 @@ export default function Component({ onFilter }: FiltersProps) {
               Price Range
             </label>
             <div className="flex items-center space-x-2 sm:space-x-4">
-              <span className="text-xs sm:text-sm">${priceRange[0]}</span>
+              <span className="text-xs sm:text-sm">₹{priceRange[0]}</span>
               <input
                 type="range"
                 min="0"
@@ -114,7 +114,7 @@ export default function Component({ onFilter }: FiltersProps) {
                 }}
                 className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
               />
-              <span className="text-xs sm:text-sm">${priceRange[1]}</span>
+              <span className="text-xs sm:text-sm">₹{priceRange[1]}</span>
             </div>
           </div>
           <div>
